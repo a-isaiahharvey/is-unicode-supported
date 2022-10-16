@@ -1,0 +1,11 @@
+[package]
+name = "unicode-support-check"
+version = "1.0.0"
+edition = "2021"
+authors = ["Allister Isaiah Harvey <a.i.harvey@icloud.com>"]
+keywords = ["terminal", "unicode", "check", "detection"]
+description = "Detect whether the terminal supports Unicode"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
