@@ -2,10 +2,12 @@
 
 /// Returns a [`bool`] for whether the terminal supports Unicode.
 pub fn is_unicode_supported() -> bool {
-    const TERM: &str = env!("TERM");
+    const TERM: Option<&str> = option_env!("TERM");
 
     if !cfg!(windows) {
-        return TERM != "linux"; // Linux console (kernel)
+        if let Some(term) = TERM {
+            return term != "linux"; // Linux console (kernel)
+        }
     }
 
     const CI: Option<&str> = option_env!("CI");
@@ -18,9 +20,9 @@ pub fn is_unicode_supported() -> bool {
     CI.is_some()
         || WT_SESSION.is_some()
         || TERMINUS_SUBLIME.is_some()
-        || TERM == "xterm-256color"
-        || TERM == "alacritty"
-        || if let Some(cet) = CON_EMU_TASK {
+        || if let Some(term) = TERM {
+            term == "xterm-256color" || term == "alacritty"
+        } else if let Some(cet) = CON_EMU_TASK {
             cet == "{cmd::Cmder}"
         } else if let Some(tp) = TERM_PROGRAM {
             tp == "Terminus-Sublime" || tp == "vscode"
